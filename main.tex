@@ -11,6 +11,11 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 
+%pour les hyperliens
+\usepackage{hyperref}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
+
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
 
 \usepackage{fancyhdr}
@@ -27,10 +32,10 @@
 \let\ps@plain=\ps@fancy
 \renewcommand{\thesection}{\@arabic\c@section.}
 \renewcommand{\thesubsection}{\@arabic\c@section.\@arabic\c@subsection}
+\renewcommand{\bibname}{Bibliographie}
 \makeatother
 
 \begin{document}
-
 \begin{titlepage}
 
   \begin{center}
@@ -55,12 +60,60 @@
 \end{titlepage}
 
 \section*{Introduction}
+L'objectif de notre projet est d'observer les effets de la combinaison de deux méthodes en apprentissage par renforcement :
+\begin{itemize}
+    \item l'imitation dans l'apprentissage
+    \item l'utilisation de la curiosité dans l'apprentissage
+\end{itemize}
+En outre, nous souhaitons déterminer si l'utilisation conjointe ou séquentielle de ces deux méthodes permet d'améliorer les performances du modèle au delà des deux méthodes séparées.
 
 \section{Présentation du modèle}
+\subsection{Méthodes d'imitation et de curiosité choisies}
+Nous avons choisi d'utiliser SQIL \cite{sqil} comme méthode d'imitation.
+Parmi les méthodes de curiosité qui nous intéressait :
+\begin{itemize}
+    \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity}
+    \item \textit{Exploration by Random Network Distillation} \cite{distillation}
+    \item les méthodes utilisées par les agents de \textit{Never Give Up} \cite{ngu} et de l'agent 57 \cite{agent57}
+\end{itemize}
+
+\subsection{Combinaison de l'imitation et de la curiosité}
+Utilisation conjointe OU imitation puis curiosité OU curiosité puis imitation ?
 
 \section{Résultats}
 
 \section*{Conclusion}
 
+\begin{thebibliography}{9}
+	\bibitem{sqil}
+	  Siddharth Reddy, Anca D. Dragan, Sergey Levine,\\
+	  \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards},\\
+	  Septembre 2019,\\
+	  \url{https://arxiv.org/abs/1905.11108}
+    
+    \bibitem{curiosity}
+	  Deepak Pathak, Pulkit Agrawal, Alexei A. Efros, Trevor Darrell,\\
+	  \textit{Curiosity-driven Exploration by Self-supervised Prediction},\\
+	  Mai 2017,\\
+	  \url{https://arxiv.org/abs/1705.05363}
+	  
+    \bibitem{distillation}
+	 Yuri Burda, Harrison Edwards, Amos Storkey, Oleg Klimov,\\
+	  \textit{Exploration by Random Network Distillation},\\
+	  Octobre 2016,\\
+	  \url{https://arxiv.org/abs/1810.12894}
+	  
+    \bibitem{ngu}
+	 Adrià Puigdomènech Badia, Pablo Sprechmann, Alex Vitvitskyi, Daniel Guo, Bilal Piot, Steven Kapturowski, Olivier Tieleman, Martín Arjovsky, Alexander Pritzel, Andew Bolt, Charles Blundell,\\
+	  \textit{Never Give Up: Learning Directed Exploration Strategies},\\
+	  Février 2020,\\
+	  \url{https://arxiv.org/abs/2002.06038}
+	  
+    \bibitem{agent57}
+	 Adrià Puigdomènech Badia, Bilal Piot, Steven Kapturowski, Pablo Sprechmann, Alex Vitvitskyi, Daniel Guo, Charles Blundell,\\
+	  \textit{Agent57: Outperforming the Atari Human Benchmark},\\
+	  Mars 2020,\\
+	  \url{https://arxiv.org/abs/2003.13350}
+\end{thebibliography}
 
 \end{document}
