@@ -1,0 +1,66 @@
+%pour la mise en page
+\documentclass[a4paper,12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+
+%pour les figures
+\usepackage{float}
+\usepackage{graphicx}
+
+%pour les maths
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand\headrulewidth{1pt}
+\fancyhead[L]{Rapport de projet - INF8225}
+\fancyhead[R]{}
+\renewcommand\footrulewidth{1pt}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{}
+
+\makeatletter
+\let\ps@plain=\ps@fancy
+\renewcommand{\thesection}{\@arabic\c@section.}
+\renewcommand{\thesubsection}{\@arabic\c@section.\@arabic\c@subsection}
+\makeatother
+
+\begin{document}
+
+\begin{titlepage}
+
+  \begin{center}
+  \vspace*{4cm}
+    \rule{\linewidth}{0.5pt}
+    \bigbreak
+    {\Huge {INF8225} }
+    \bigbreak
+    {\LARGE {Rapport de projet}}
+    \medbreak    
+    \rule{\linewidth}{.5pt}
+    \bigbreak
+    Michel Fabrice \textsc{Serret}\\
+    Justine \textsc{Marlow}\\
+    Brieuc \textsc{Dandin}\\
+    Nicolas \textsc{Valenchon}\\
+    \vfill
+	\includegraphics[scale=1]{Logo_Polytechnique_Montréal_(partenariat_Wikimédia).png}
+	\vfill
+    
+\end{center}
+\end{titlepage}
+
+\section*{Introduction}
+
+\section{Présentation du modèle}
+
+\section{Résultats}
+
+\section*{Conclusion}
+
+
+\end{document}
