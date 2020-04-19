@@ -76,11 +76,15 @@ Parmi les méthodes de curiosité qui nous intéressait :
     \item \textit{Exploration by Random Network Distillation} \cite{distillation}
     \item les méthodes utilisées par les agents de \textit{Never Give Up} \cite{ngu} et de l'agent 57 \cite{agent57}
 \end{itemize}
+Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repo Github} \cite{distillation_github}).
 
 \subsection{Combinaison de l'imitation et de la curiosité}
 Utilisation conjointe OU imitation puis curiosité OU curiosité puis imitation ?
 
-\section{Résultats}
+\section{Expériences}
+\subsection{Environnement de test}
+Pour tester notre modèle, nous avons utilisé la librairie \textit{python} \textit{gym} \cite{gym}, qui permet de tester et comparer des modèles en apprentissage par renforcement, notamment sur des jeux vidéos.
+\subsection{Résultats}
 
 \section*{Conclusion}
 
@@ -114,6 +118,14 @@ Utilisation conjointe OU imitation puis curiosité OU curiosité puis imitation 
 	  \textit{Agent57: Outperforming the Atari Human Benchmark},\\
 	  Mars 2020,\\
 	  \url{https://arxiv.org/abs/2003.13350}
+	  
+    \bibitem{distillation_github}
+	  \textit{Github repo for random network distillation}\\
+	  \url{https://github.com/openai/random-network-distillation}
+	  
+	\bibitem{gym}
+	\textit{Gym python library}\\
+	\url{https://gym.openai.com/}
 \end{thebibliography}
 
 \end{document}
