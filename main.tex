@@ -68,33 +68,79 @@ L'objectif de notre projet est d'observer les effets de la combinaison de deux m
 En outre, nous souhaitons déterminer si l'utilisation conjointe ou séquentielle de ces deux méthodes permet d'améliorer les performances du modèle au delà des deux méthodes séparées.
 
 \section{Présentation du modèle}
-\subsection{Méthodes d'imitation et de curiosité choisies}
-Nous avons choisi d'utiliser SQIL \cite{sqil} comme méthode d'imitation.
+\subsection{Méthode de curiosité choisie}
 Parmi les méthodes de curiosité qui nous intéressait :
 \begin{itemize}
     \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity}
     \item \textit{Exploration by Random Network Distillation} \cite{distillation}
     \item les méthodes utilisées par les agents de \textit{Never Give Up} \cite{ngu} et de l'agent 57 \cite{agent57}
 \end{itemize}
-Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repo Github} \cite{distillation_github}).
+Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repository Github} \cite{distillation_github}). On présentera cette méthode dans la section \ref{revue_distillation} en page \pageref{revue_distillation} de ce rapport.
 
+\subsection{Méthode d'imitation choisie}
+Notre objectif était d'utiliser la méthode d'apprentissage par renforcement par imitation \textit{SQIL} \cite{sqil}.\\
+\indent Cependant, dû à un manque de temps et le fait de n'avoir trouvé aucun \textit{repository} utilisable, nous avons décidé de définir une récompense intrinsèque guidée par les démonstrations d'un agent expert (ici, notre agent entraîné avec la curiosité de \textit{random network distillation}).\\
+\indent Pour ce faire nous avons utilisé une méthode similaire au \textit{pseudo-count} de la mémoire épisodique de l'agent NGU mais pour comparer les observations de notre agent avec celles des démonstrations de notre agent expert. Par manque de temps, et comme nous nous intéressons ici à ce que les états soit similaire nous avons utilisée directement les produit scalaire entre les vecteurs de \textit{features} crées par le \textit{random target network} du modèle en cours d'entraînement comme \textit{kernel} de similarité, ensuite nous combinons le \textit{reward} ainsi obtenu avec le \textit{reward} de curiosité comme suit:
+\begin{equation} r_{im} = \frac{\sum_{v\in \text{Demonstrations}} X_{obs}\cdot v}{|\text{Demonstrations}|} \end{equation}
+
+\begin{equation} r_{int} = r_{rnd} \cdot (1 + tanh(\alpha \cdot r_{im})) \end{equation}
+
+\newpage \section{Revue : \textit{Exploration by Random Network Distillation}}
+\label{revue_distillation}
+
+\newpage \section{Expériences}
 \subsection{Combinaison de l'imitation et de la curiosité}
-Utilisation conjointe OU imitation puis curiosité OU curiosité puis imitation ?
+Nous avons donc choisi de comparer les performances de notre agent avec curiosité (\textit{random network distillation}) avec notre agent imitateur de l'agent \textit{expert} (le premier).
 
-\section{Expériences}
 \subsection{Environnement de test}
-Pour tester notre modèle, nous avons utilisé la librairie \textit{python} \textit{gym} \cite{gym}, qui permet de tester et comparer des modèles en apprentissage par renforcement, notamment sur des jeux vidéos.
+%Pour tester notre modèle, nous avons utilisé la librairie \textit{python} \textit{gym} \cite{gym}, qui permet de tester et comparer des modèles en apprentissage par renforcement, notamment sur des jeux vidéos.\\
+Le code fourni pour la \textit{random network distillation} offre différents environnements de test qui sont des jeux vidéos d'\textit{Atari}, nous avons choisi d'entraîner et de tester nos agents sur le jeu \textit{Montezuma's revenge}\cite{montezuma}. Dans ce jeu, l'objectif du joueur est d'explorer un ensemble de salles en évitant des ennemis et des pièges (qui entraînent la mort du joueur).
+
 \subsection{Résultats}
+\subsubsection{Agent avec curiosité (\textit{random network distillation})}
+On va s'intéresser à différents paramètres que l'on peut observer au fil de l'apprentissage de l'agent à savoir :
+\begin{itemize}
+    \item \textit{n\_rooms} : le nombre de salles atteintes par l'agent depuis le début de l'apprentissage
+    \item \textit{rewtotal} : la somme des récompenses obtenues par l'agent depuis le début de l'apprentissage
+    \item \textit{best\_ret} : la valeur de récompense la plus importante déjà rencontrée par l'agent depuis le début de l'apprentissage
+    \item \textit{eplen} : la longueur des épisodes d'apprentissage menés par l'agent
+    \item \textit{eprooms} : le nombre de salles atteintes par l'agent en un épisode d'apprentissage
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{curiosity_only/curiosity_n_rooms.JPG}\\
+    \includegraphics[width=\textwidth]{curiosity_only/curiosity_rewtotal.JPG}\\
+    \includegraphics[width=\textwidth]{curiosity_only/curiosity_best_ret.JPG}
+    \caption{Résultats de l'apprentissage de l'agent avec curiosité (1)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{curiosity_only/curiosity_eplen.JPG}\\
+    \includegraphics[width=\textwidth]{curiosity_only/curiosity_eprooms.JPG}
+    \caption{Résultats de l'apprentissage de l'agent avec curiosité (2)}
+\end{figure}
+
+\subsubsection{Agent avec imitation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{curiosity_imitation/curiosity_imitation_n_rooms.JPG}
+    \includegraphics[width=\textwidth]{curiosity_imitation/curiosity_imitation_rewtotal.JPG}
+    \includegraphics[width=\textwidth]{curiosity_imitation/curiosity_imitation_best_ret.JPG}
+    \caption{Comparaison des résultats d'apprentissage de l'agent avec curiosité et de l'agent par imitation (1)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{curiosity_imitation/curiosity_imitation_eplen.JPG}
+    \includegraphics[width=\textwidth]{curiosity_imitation/curiosity_imitation_eprooms.JPG}
+    \caption{Comparaison des résultats d'apprentissage de l'agent avec curiosité et de l'agent par imitation (2)}
+\end{figure}
 
 \section*{Conclusion}
 
 \begin{thebibliography}{9}
-	\bibitem{sqil}
-	  Siddharth Reddy, Anca D. Dragan, Sergey Levine,\\
-	  \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards},\\
-	  Septembre 2019,\\
-	  \url{https://arxiv.org/abs/1905.11108}
-    
     \bibitem{curiosity}
 	  Deepak Pathak, Pulkit Agrawal, Alexei A. Efros, Trevor Darrell,\\
 	  \textit{Curiosity-driven Exploration by Self-supervised Prediction},\\
@@ -123,9 +169,19 @@ Pour tester notre modèle, nous avons utilisé la librairie \textit{python} \tex
 	  \textit{Github repo for random network distillation}\\
 	  \url{https://github.com/openai/random-network-distillation}
 	  
+		\bibitem{sqil}
+	  Siddharth Reddy, Anca D. Dragan, Sergey Levine,\\
+	  \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards},\\
+	  Septembre 2019,\\
+	  \url{https://arxiv.org/abs/1905.11108}
+	  
 	\bibitem{gym}
 	\textit{Gym python library}\\
 	\url{https://gym.openai.com/}
+	
+	\bibitem{montezuma}
+	Jeu vidéo \textit{Montezuma's revenge}\\
+	\url{https://en.wikipedia.org/wiki/Montezuma%27s_Revenge_(video_game)}
 \end{thebibliography}
 
 \end{document}
