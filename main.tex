@@ -91,6 +91,10 @@ Notre objectif était d'utiliser la méthode d'apprentissage par renforcement pa
 \newpage \section{Expériences}
 \subsection{Combinaison de l'imitation et de la curiosité}
 Nous avons donc choisi de comparer les performances de notre agent avec curiosité (\textit{random network distillation}) avec notre agent imitateur de l'agent \textit{expert} (le premier).
+Notre implémentation du reward $r_{im}$, défini ci-dessus, souffre d'une erreur dont nous n'avons malheureusement pas trouvé la source et qui nous empêche d'aller au-delà de 400 étapes par épisode durant l'entrainement.
+En effet, l'apprentissage avec ce reward fonctionne jusqu'à ce que la mémoire de l'ordinateur soit remplie et que les process MPI et python associés soient 'killed'.
+Malgré la diminution du nombre de processes concurrent à 8(initialement 32) et du nombre d'observations de l'agent expert à 54 (initialement 864), nous n'avons pas pu aller au-delà d'épisodes de 400 étapes pour l'entrainement avec ce reward.
+Cette erreur est probablement dûe à un 'memory-leak' dans notre code, cependant l'hypothèse du manque de mémoire n'a pas été écartée(par manque de moyen).
 
 \subsection{Environnement de test}
 %Pour tester notre modèle, nous avons utilisé la librairie \textit{python} \textit{gym} \cite{gym}, qui permet de tester et comparer des modèles en apprentissage par renforcement, notamment sur des jeux vidéos.\\
