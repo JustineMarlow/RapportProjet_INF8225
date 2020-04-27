@@ -45,7 +45,7 @@
     {\Huge {INF8225} }
     \bigbreak
     {\LARGE {Rapport de projet}}
-    \medbreak    
+    \medbreak
     \rule{\linewidth}{.5pt}
     \bigbreak
     Michel Fabrice \textsc{Serret}\\
@@ -55,7 +55,7 @@
     \vfill
 	\includegraphics[scale=1]{Logo_Polytechnique_Montréal_(partenariat_Wikimédia).png}
 	\vfill
-    
+
 \end{center}
 \end{titlepage}
 
@@ -87,7 +87,7 @@ Nous présenterons donc dans ce rapport une revue de littérature de ces différ
 Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repository Github} \cite{distillation_github}).
 
 \subsection{Méthode d'imitation choisie}
-Notre objectif était d'utiliser la méthode d'apprentissage par renforcement par imitation \textit{SQIL} \cite{sqil}.\\
+Notre objectif était d'utiliser la méthode d'apprentissage par renforcement par imitation \textit{SQIL} (cf. partie \ref{revue_SQIL} et article \cite{sqil}).\\
 \indent Cependant, dû à un manque de temps et le fait de n'avoir trouvé aucun \textit{repository} utilisable, nous avons décidé de définir une récompense intrinsèque guidée par les démonstrations d'un agent expert (ici, notre agent entraîné avec la curiosité de \textit{random network distillation}).\\
 \indent Pour ce faire nous avons utilisé une méthode similaire au \textit{pseudo-count} de la mémoire épisodique de l'agent NGU mais pour comparer les observations de notre agent avec celles des démonstrations de notre agent expert. Par manque de temps, et comme nous nous intéressons ici à ce que les états soit similaire nous avons utilisée directement les produit scalaire entre les vecteurs de \textit{features} crées par le \textit{random target network} du modèle en cours d'entraînement comme \textit{kernel} de similarité, ensuite nous combinons le \textit{reward} ainsi obtenu avec le \textit{reward} de curiosité comme suit:
 \begin{equation} r_{im} = \frac{\sum_{v\in \text{Demonstrations}} X_{obs}\cdot v}{|\text{Demonstrations}|} \end{equation}
@@ -152,35 +152,35 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
 	  \textit{Curiosity-driven Exploration by Self-supervised Prediction},\\
 	  Mai 2017,\\
 	  \url{https://arxiv.org/abs/1705.05363}
-	  
+
     \bibitem{distillation}
 	 Yuri Burda, Harrison Edwards, Amos Storkey, Oleg Klimov,\\
 	  \textit{Exploration by Random Network Distillation},\\
 	  Octobre 2016,\\
 	  \url{https://arxiv.org/abs/1810.12894}
-	  
+
     \bibitem{ngu}
 	 Adrià Puigdomènech Badia, Pablo Sprechmann, Alex Vitvitskyi, Daniel Guo, Bilal Piot, Steven Kapturowski, Olivier Tieleman, Martín Arjovsky, Alexander Pritzel, Andew Bolt, Charles Blundell,\\
 	  \textit{Never Give Up: Learning Directed Exploration Strategies},\\
 	  Février 2020,\\
 	  \url{https://arxiv.org/abs/2002.06038}
-	  
+
     \bibitem{agent57}
 	 Adrià Puigdomènech Badia, Bilal Piot, Steven Kapturowski, Pablo Sprechmann, Alex Vitvitskyi, Daniel Guo, Charles Blundell,\\
 	  \textit{Agent57: Outperforming the Atari Human Benchmark},\\
 	  Mars 2020,\\
 	  \url{https://arxiv.org/abs/2003.13350}
-	  
+
     \bibitem{distillation_github}
 	  \textit{Github repo for random network distillation}\\
 	  \url{https://github.com/openai/random-network-distillation}
-	  
-	\bibitem{sqil}
+
+		\bibitem{sqil}
 	  Siddharth Reddy, Anca D. Dragan, Sergey Levine,\\
 	  \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards},\\
 	  Septembre 2019,\\
 	  \url{https://arxiv.org/abs/1905.11108}
-	
+
 	\bibitem{montezuma}
 	Jeu vidéo \textit{Montezuma's revenge}\\
 	\url{https://en.wikipedia.org/wiki/Montezuma%27s_Revenge_(video_game)}
