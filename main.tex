@@ -45,7 +45,7 @@
     {\Huge {INF8225} }
     \bigbreak
     {\LARGE {Rapport de projet}}
-    \medbreak    
+    \medbreak
     \rule{\linewidth}{.5pt}
     \bigbreak
     Michel Fabrice \textsc{Serret}\\
@@ -55,7 +55,7 @@
     \vfill
 	\includegraphics[scale=1]{Logo_Polytechnique_Montréal_(partenariat_Wikimédia).png}
 	\vfill
-    
+
 \end{center}
 \end{titlepage}
 
@@ -78,12 +78,25 @@ Parmi les méthodes de curiosité qui nous intéressait :
 Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repository Github} \cite{distillation_github}). On présentera cette méthode dans la section \ref{revue_distillation} en page \pageref{revue_distillation} de ce rapport.
 
 \subsection{Méthode d'imitation choisie}
-Notre objectif était d'utiliser la méthode d'apprentissage par renforcement par imitation \textit{SQIL} \cite{sqil}.\\
+Notre objectif était d'utiliser la méthode d'apprentissage par renforcement par imitation \textit{SQIL} (cf. partie \ref{revue_SQIL} et article \cite{sqil}).\\
 \indent Cependant, dû à un manque de temps et le fait de n'avoir trouvé aucun \textit{repository} utilisable, nous avons décidé de définir une récompense intrinsèque guidée par les démonstrations d'un agent expert (ici, notre agent entraîné avec la curiosité de \textit{random network distillation}).\\
 \indent Pour ce faire nous avons utilisé une méthode similaire au \textit{pseudo-count} de la mémoire épisodique de l'agent NGU mais pour comparer les observations de notre agent avec celles des démonstrations de notre agent expert. Par manque de temps, et comme nous nous intéressons ici à ce que les états soit similaire nous avons utilisée directement les produit scalaire entre les vecteurs de \textit{features} crées par le \textit{random target network} du modèle en cours d'entraînement comme \textit{kernel} de similarité, ensuite nous combinons le \textit{reward} ainsi obtenu avec le \textit{reward} de curiosité comme suit:
 \begin{equation} r_{im} = \frac{\sum_{v\in \text{Demonstrations}} X_{obs}\cdot v}{|\text{Demonstrations}|} \end{equation}
 
 \begin{equation} r_{int} = r_{rnd} \cdot (1 + tanh(\alpha \cdot r_{im})) \end{equation}
+
+\newpage \section{Revue : \textit{Soft Q imitation learning} (SQIL)}
+\label{revue_SQIL}
+Il peut être très complexe d'entraîner un agent à imiter un expert sur la base de démonstrations, et ce, particulièrement à travers l'observation continue d'un environnement aux nombreuses dimensions et comprenant des dynamiques inconnues. Les méthodes d'apprentissage supervisé se basant sur le \textit{behavioral cloning} (BC) souffrent de dérive de la distribution - \textit{distribution shifting}. En effet, en imitant trop les actions démontrées, l'agent accumule des erreurs et dérive des états recherchés.
+\newline Des approches récentes basées sur l'apprentissage par renforcement - \textit{reinforcement learning} (RL) -, dont l'\textit{inverse RL} et le \textit{generative adversarial imitation learning} (GAIL), résolvent ce problème. Mais cela est au prix de l'entraînement d'un agent RL qui pour coller aux démonstrations sur le long terme. La véritable fonction de récompense étant inconnue, cela implique que son apprentissage se base sur les démonstrations, au prix de techniques d'approximation hasardeuses et complexes qui utilise un entraînement adversariel.
+\newline
+\newline Reddy \& al. proposent une alternative qui, bien qu'utilisant de l'apprentissage par renforcement, ne nécessite pas d'apprendre une fonction de récompense. Leur méthode emploie un agent qui retourne aux états déjà démontrés lorsqu'il en rencontre de nouveaux, afin de coïncider avec les démonstrations sur le long terme. Afin de revenir à ces états régulièrement, l'agent reçoit une récompense constante $r=+1$ lorsqu'il effectue l'action démontrée pour un état démontrée, et de $r=0$ autrement.
+\newline
+\newline Les auteurs de l'article présentant SQIL le comparent aux méthodes de BC sur une variété de tâches en petite dimension et basées sur des images avec Box2D, Atari et MuJoCo. Les résultats de SQIL sont supérieurs à ceux obtenus avec des méthodes de \textit{behavioral cloning}, et placent cette méthode au même niveau que GAIL.
+\newline
+\newline SQIL est une preuve de concept que même de simple méthodes d'imitation basée sur l'apprentissage par renforcement avec des récompenses constantes peut être aussi efficace que des méthodes bien plus complexes, avec lesquelles les récompenses sont apprises. En théorie, SQIL peut toutefois être interprété comme une variante régularisée de \textit{behavioral cloning} qui utilise de la dispersion - \textit{sparcity} - avant d'encourager l'imitation sur le long-terme.
+\newline
+\newline Cette méthode peut être implémentée avec n'importe quel algorithme d'acteur-critique sans politique ou de \textit{Q-learning} standard avec très peu de modifications, raison pour laquelle elle s'avère particulièrement intéressante dans le cas de notre projet.
 
 \newpage \section{Revue : \textit{Exploration by Random Network Distillation}}
 \label{revue_distillation}
@@ -141,39 +154,39 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
 	  \textit{Curiosity-driven Exploration by Self-supervised Prediction},\\
 	  Mai 2017,\\
 	  \url{https://arxiv.org/abs/1705.05363}
-	  
+
     \bibitem{distillation}
 	 Yuri Burda, Harrison Edwards, Amos Storkey, Oleg Klimov,\\
 	  \textit{Exploration by Random Network Distillation},\\
 	  Octobre 2016,\\
 	  \url{https://arxiv.org/abs/1810.12894}
-	  
+
     \bibitem{ngu}
 	 Adrià Puigdomènech Badia, Pablo Sprechmann, Alex Vitvitskyi, Daniel Guo, Bilal Piot, Steven Kapturowski, Olivier Tieleman, Martín Arjovsky, Alexander Pritzel, Andew Bolt, Charles Blundell,\\
 	  \textit{Never Give Up: Learning Directed Exploration Strategies},\\
 	  Février 2020,\\
 	  \url{https://arxiv.org/abs/2002.06038}
-	  
+
     \bibitem{agent57}
 	 Adrià Puigdomènech Badia, Bilal Piot, Steven Kapturowski, Pablo Sprechmann, Alex Vitvitskyi, Daniel Guo, Charles Blundell,\\
 	  \textit{Agent57: Outperforming the Atari Human Benchmark},\\
 	  Mars 2020,\\
 	  \url{https://arxiv.org/abs/2003.13350}
-	  
+
     \bibitem{distillation_github}
 	  \textit{Github repo for random network distillation}\\
 	  \url{https://github.com/openai/random-network-distillation}
-	  
+
 		\bibitem{sqil}
 	  Siddharth Reddy, Anca D. Dragan, Sergey Levine,\\
 	  \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards},\\
 	  Septembre 2019,\\
 	  \url{https://arxiv.org/abs/1905.11108}
-	  
+
 	\bibitem{gym}
 	\textit{Gym python library}\\
 	\url{https://gym.openai.com/}
-	
+
 	\bibitem{montezuma}
 	Jeu vidéo \textit{Montezuma's revenge}\\
 	\url{https://en.wikipedia.org/wiki/Montezuma%27s_Revenge_(video_game)}
