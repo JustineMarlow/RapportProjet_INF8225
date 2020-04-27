@@ -33,6 +33,7 @@
 \renewcommand{\thesection}{\@arabic\c@section.}
 \renewcommand{\thesubsection}{\@arabic\c@section.\@arabic\c@subsection}
 \renewcommand{\bibname}{Bibliographie}
+\renewcommand{\contentsname}{Table des matières}
 \makeatother
 
 \begin{document}
@@ -59,7 +60,10 @@
 \end{center}
 \end{titlepage}
 
-\section*{Introduction}
+\tableofcontents
+
+\newpage \section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
 L'objectif de notre projet est d'observer les effets de la combinaison de deux méthodes en apprentissage par renforcement :
 \begin{itemize}
     \item l'imitation dans l'apprentissage
@@ -137,6 +141,7 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
 
 \newpage
 \subsection*{Annexe 1 - Graphiques d'apprentissage de l'agent avec curiosité}
+\addcontentsline{toc}{section}{Annexe 1}
 \label{annexe_1}
     \centering
     \includegraphics[width=\textwidth]{curiosity_only/curiosity_n_rooms.JPG}
@@ -147,6 +152,7 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
 
 \newpage
 \subsection*{Annexe 2 - Graphiques d'apprentissage de l'agent avec curiosité et de l'agent avec imitation}
+\addcontentsline{toc}{section}{Annexe 2}
 \label{annexe_2}
     \centering
     \includegraphics[width=\textwidth]{curiosity_imitation/curiosity_imitation_n_rooms.JPG}
@@ -156,6 +162,7 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
     \includegraphics[width=\textwidth]{curiosity_imitation/curiosity_imitation_eprooms.JPG}
 
 \begin{thebibliography}{9}
+\addcontentsline{toc}{section}{Bibliographie}
     \bibitem{curiosity}
 	  Deepak Pathak, Pulkit Agrawal, Alexei A. Efros, Trevor Darrell,\\
 	  \textit{Curiosity-driven Exploration by Self-supervised Prediction},\\
