@@ -65,17 +65,26 @@ L'objectif de notre projet est d'observer les effets de la combinaison de deux m
     \item l'imitation dans l'apprentissage
     \item l'utilisation de la curiosité dans l'apprentissage
 \end{itemize}
-En outre, nous souhaitons déterminer si l'utilisation conjointe ou séquentielle de ces deux méthodes permet d'améliorer les performances du modèle au delà des deux méthodes séparées.
+En outre, nous souhaitons déterminer si l'utilisation conjointe ou séquentielle de ces deux méthodes permet d'améliorer les performances du modèle au delà des deux méthodes séparées.\\
 
-\section{Présentation du modèle}
-\subsection{Méthode de curiosité choisie}
-Parmi les méthodes de curiosité qui nous intéressait :
+Parmi les méthodes de curiosité existantes aujourd'hui en \textit{machine learning}, nous nous sommes intéressés aux méthodes :
 \begin{itemize}
-    \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity}
+    \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity} \footnote{Nous avons réalisé notre présentation d'article de recherche en INF8225}
     \item \textit{Exploration by Random Network Distillation} \cite{distillation}
     \item les méthodes utilisées par les agents de \textit{Never Give Up} \cite{ngu} et de l'agent 57 \cite{agent57}
 \end{itemize}
-Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repository Github} \cite{distillation_github}). On présentera cette méthode dans la section \ref{revue_distillation} en page \pageref{revue_distillation} de ce rapport.
+Par ailleurs, nous nous sommes intéressé à la méthode d'imitation \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}.\\
+
+Nous présenterons donc dans ce rapport une revue de littérature de ces différentes méthodes, avant de présenter l'expérience que nous avons tenté de mener.
+
+\newpage \section{Revue : \textit{Exploration by Random Network Distillation} \cite{distillation}}
+\label{revue_distillation}
+
+\newpage \section{Revue : \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}}
+
+\newpage \section{Expérience}
+\subsection{Méthode de curiosité choisie}
+Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repository Github} \cite{distillation_github}).
 
 \subsection{Méthode d'imitation choisie}
 Notre objectif était d'utiliser la méthode d'apprentissage par renforcement par imitation \textit{SQIL} \cite{sqil}.\\
@@ -85,10 +94,6 @@ Notre objectif était d'utiliser la méthode d'apprentissage par renforcement pa
 
 \begin{equation} r_{int} = r_{rnd} \cdot (1 + tanh(\alpha \cdot r_{im})) \end{equation}
 
-\newpage \section{Revue : \textit{Exploration by Random Network Distillation}}
-\label{revue_distillation}
-
-\newpage \section{Expériences}
 \subsection{Combinaison de l'imitation et de la curiosité}
 Nous avons donc choisi de comparer les performances de notre agent avec curiosité (\textit{random network distillation}) avec notre agent imitateur de l'agent \textit{expert} (le premier).
 
@@ -112,8 +117,14 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
     \item \textit{eprooms} : le nombre de salles atteintes par l'agent en un épisode d'apprentissage
 \end{itemize}
 
+\subsubsection{Graphiques des données obtenues lors de l'apprentissage}
 \indent Dans le but de comparer les deux modèles d'apprentissage, nous avons préparé un code de mise en forme des résultats en graphiques (en utilisant notamment la librairie \textit{python} \textit{matplotlib}) afin de pouvoir comparer nos deux agents sur les différents paramètres énoncés plus haut.\\
-\indent Étant dans l'impossibilité de mener l'apprentissage de l'agent par imitation suffisamment loin pour obtenir des résultats intéressants, nous présenterons en annexe 1 (en page \pageref{annexe_1}) les graphiques d'apprentissage de l'agent avec curiosité et en annexe 2 (en page \pageref{annexe_2}) la superposition des courbes d'apprentissage de l'agent avec curiosité et l'agent avec imitation sur les 400 premières étapes d'apprentissage (seules données à notre disposition pour l'agent avec imitation).
+
+\indent Étant dans l'impossibilité de mener l'apprentissage de l'agent par imitation suffisamment loin pour obtenir des résultats intéressants, nous présenterons en annexe 1 (à partir de la page \pageref{annexe_1}) les graphiques d'apprentissage de l'agent avec curiosité et en annexe 2 (à partir de la page \pageref{annexe_2}) la superposition des courbes d'apprentissage de l'agent avec curiosité et l'agent avec imitation sur les 400 premières étapes d'apprentissage (seules données à notre disposition pour l'agent avec imitation).\\
+
+\indent Les graphiques présentés dans l'annexe 1 montrent que notre agent avec curiosité parvient bien à \textit{apprendre} au fil du temps : \textit{n\_rooms}, \textit{rewtotal} et \textit{best\_ret} augmentent. A l'échelle des épisodes, on constate que globalement \textit{eplen} augmente (ce qui indique que l'agent est capable de joueur au jeu de plus en plus longtemps, sans \textit{game-over}) et \textit{eprooms} augmente globalement également. On constate tout de même une régression de \textit{eplen} et \textit{eprooms} autour de la 3000ème étape d'apprentissage, ce qui pourrait indiquer un sur-apprentissage.\\
+
+\indent Les graphiques présentés dans l'annexe 2 ne nous permettent malheureusement pas de tirer des conclusions.
 
 \newpage
 \subsection*{Annexe 1 - Graphiques d'apprentissage de l'agent avec curiosité}
@@ -164,15 +175,11 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
 	  \textit{Github repo for random network distillation}\\
 	  \url{https://github.com/openai/random-network-distillation}
 	  
-		\bibitem{sqil}
+	\bibitem{sqil}
 	  Siddharth Reddy, Anca D. Dragan, Sergey Levine,\\
 	  \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards},\\
 	  Septembre 2019,\\
 	  \url{https://arxiv.org/abs/1905.11108}
-	  
-	\bibitem{gym}
-	\textit{Gym python library}\\
-	\url{https://gym.openai.com/}
 	
 	\bibitem{montezuma}
 	Jeu vidéo \textit{Montezuma's revenge}\\
