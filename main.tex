@@ -69,7 +69,7 @@ En outre, nous souhaitons déterminer si l'utilisation conjointe ou séquentiell
 
 Parmi les méthodes de curiosité existantes aujourd'hui en \textit{machine learning}, nous nous sommes intéressés aux méthodes :
 \begin{itemize}
-    \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity} \footnote{Nous avons réalisé notre présentation d'article de recherche en INF8225}
+    \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity} \footnote{Nous avons réalisé notre présentation en INF8225 sur cet article de recherche}
     \item \textit{Exploration by Random Network Distillation} \cite{distillation}
     \item les méthodes utilisées par les agents de \textit{Never Give Up} \cite{ngu} et de l'agent 57 \cite{agent57}
 \end{itemize}
@@ -80,7 +80,18 @@ Nous présenterons donc dans ce rapport une revue de littérature de ces différ
 \newpage \section{Revue : \textit{Exploration by Random Network Distillation} \cite{distillation}}
 \label{revue_distillation}
 
-\newpage \section{Revue : \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}}
+\newpage \section{Revue : \textit{Soft Q imitation learning (SQIL): Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}}
+\label{revue_SQIL}
+Il peut être très complexe d'entraîner un agent à imiter un expert sur la base de démonstrations, et ce, particulièrement à travers l'observation continue d'un environnement aux nombreuses dimensions et comprenant des dynamiques inconnues. Les méthodes d'apprentissage supervisé se basant sur le \textit{behavioral cloning} (BC) souffrent de dérive de la distribution - \textit{distribution shifting}. En effet, en imitant trop les actions démontrées, l'agent accumule des erreurs et dérive des états recherchés.
+\newline Des approches récentes basées sur l'apprentissage par renforcement - \textit{reinforcement learning} (RL) -, dont l'\textit{inverse RL} et le \textit{generative adversarial imitation learning} (GAIL), résolvent ce problème. Mais cela est au prix de l'entraînement d'un agent RL qui pour coller aux démonstrations sur le long terme. La véritable fonction de récompense étant inconnue, cela implique que son apprentissage se base sur les démonstrations, au prix de techniques d'approximation hasardeuses et complexes qui utilise un entraînement adversariel.
+\newline
+\newline \indent Reddy \& al. proposent une alternative qui, bien qu'utilisant de l'apprentissage par renforcement, ne nécessite pas d'apprendre une fonction de récompense. Leur méthode emploie un agent qui retourne aux états déjà démontrés lorsqu'il en rencontre de nouveaux, afin de coïncider avec les démonstrations sur le long terme. Afin de revenir à ces états régulièrement, l'agent reçoit une récompense constante $r=+1$ lorsqu'il effectue l'action démontrée pour un état démontrée, et de $r=0$ autrement.
+\newline
+\newline \indent Les auteurs de l'article présentant SQIL le comparent aux méthodes de BC sur une variété de tâches en petite dimension et basées sur des images avec Box2D, Atari et MuJoCo. Les résultats de SQIL sont supérieurs à ceux obtenus avec des méthodes de \textit{behavioral cloning}, et placent cette méthode au même niveau que GAIL.
+\newline
+\newline \indent SQIL est une preuve de concept que même de simple méthodes d'imitation basée sur l'apprentissage par renforcement avec des récompenses constantes peut être aussi efficace que des méthodes bien plus complexes, avec lesquelles les récompenses sont apprises. En théorie, SQIL peut toutefois être interprété comme une variante régularisée de \textit{behavioral cloning} qui utilise de la dispersion - \textit{sparcity} - avant d'encourager l'imitation sur le long-terme.
+\newline
+\newline \indent Cette méthode peut être implémentée avec n'importe quel algorithme d'acteur-critique sans politique ou de \textit{Q-learning} standard avec très peu de modifications, raison pour laquelle elle s'avère particulièrement intéressante dans le cas de notre projet.
 
 \newpage \section{Expérience}
 \subsection{Méthode de curiosité choisie}
@@ -122,9 +133,7 @@ On peut s'intéresser à différents paramètres que l'on peut observer au fil d
 
 \indent Étant dans l'impossibilité de mener l'apprentissage de l'agent par imitation suffisamment loin pour obtenir des résultats intéressants, nous présenterons en annexe 1 (à partir de la page \pageref{annexe_1}) les graphiques d'apprentissage de l'agent avec curiosité et en annexe 2 (à partir de la page \pageref{annexe_2}) la superposition des courbes d'apprentissage de l'agent avec curiosité et l'agent avec imitation sur les 400 premières étapes d'apprentissage (seules données à notre disposition pour l'agent avec imitation).\\
 
-\indent Les graphiques présentés dans l'annexe 1 montrent que notre agent avec curiosité parvient bien à \textit{apprendre} au fil du temps : \textit{n\_rooms}, \textit{rewtotal} et \textit{best\_ret} augmentent. A l'échelle des épisodes, on constate que globalement \textit{eplen} augmente (ce qui indique que l'agent est capable de joueur au jeu de plus en plus longtemps, sans \textit{game-over}) et \textit{eprooms} augmente globalement également. On constate tout de même une régression de \textit{eplen} et \textit{eprooms} autour de la 3000ème étape d'apprentissage, ce qui pourrait indiquer un sur-apprentissage.\\
-
-\indent Les graphiques présentés dans l'annexe 2 ne nous permettent malheureusement pas de tirer des conclusions.
+\indent Les graphiques présentés dans l'annexe 1 montrent que notre agent avec curiosité parvient bien à \textit{apprendre} au fil du temps : \textit{n\_rooms}, \textit{rewtotal} et \textit{best\_ret} augmentent. A l'échelle des épisodes, on constate que globalement \textit{eplen} augmente (ce qui indique que l'agent est capable de joueur au jeu de plus en plus longtemps, sans \textit{game-over}) et \textit{eprooms} augmente globalement également. On constate tout de même une régression de \textit{eplen} et \textit{eprooms} autour de la 3000ème étape d'apprentissage, ce qui pourrait indiquer un sur-apprentissage. Les graphiques présentés dans l'annexe 2 ne nous permettent malheureusement pas de tirer des conclusions.
 
 \newpage
 \subsection*{Annexe 1 - Graphiques d'apprentissage de l'agent avec curiosité}
