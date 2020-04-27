@@ -85,8 +85,37 @@ Le code developpé dans le cadre de ce projet est disponble sur un \textit{repos
 
 \newpage \section{Revue : \textit{Exploration by Random Network Distillation} \cite{distillation}}
 \label{revue_distillation}
+Difficulté d'entraîner un réseau de RL quand les récompenses ne sont pas denses.
+\newline
+\newline Une solution est d’utiliser les erreurs de prédiction pour quantifier les nouvelles expériences. Ainsi en ajoutant une récompense intrinsèque, on peut inciter l’agent à aller vers des états non exploré ou peu explorés. Une autre solution consiste à énumérer tous les états visités et augmenter la récompense intrinsèque pour les états les moins visités.
+\newline
+\newline Si l’agent peut influencer une action dont le résultat est aléatoire (jouer à pile ou face par exemple), il ne va pas aller explorer ailleurs. Il faudrait quantifier l’amélioration relative de la prédiction, c’est-à-dire si l’agent apprend quelque chose à rester dans cet état (ce qui n’est pas le cas, car il ne peut pas prédire quelque chose d’aléatoire, donc il n’apprend rien) : mesure difficile à implémenter
+\newline
+\newline Le RDN utilise deux réseaux. Un premier, que l’on appellera le target network, va prendre les observations de l’agent et en retourner une version plus représentative. Et un deuxième qui va être entraîné afin d’imiter le premier, en minimisant l’erreur quadratique entre les deux.
+\newline
+\newline Entraîner l’agent de manière épisodique peut être contre productif :    même si l’agent perd pour avoir essayer d’explorer une zone nouvelle et qu’il n’a eu aucune récompense pour cela, si on recommence son exploration de zéro en définissant un nouvel épisode, alors il ne va pas essayer d’y retourner, car aucune récompense n’est associé à cette zone. Or s’il reste sur le même épisode et qu’il réessaie et finalement il obtient une récompense énorme, alors obtenir plusieurs game-over pour arriver à cette récompense est une solution rentable. Finalement c’est ce qu’un joueur humain ferait : il ne va pas arrêter de jouer dès qu’il perd. Il va recommencer, surtout s’il sait qu’il est dans une zone difficile mais que la récompense qu’il peut obtenir est très importante (et si c’est difficile la récompense est surement de taille). Il faut tout de même réaliser des épisodes, car l’agent peut se retrouver bloqué au début du jeu si il obtient une récompense facilement, qu’il perd puis que cette récompense est à nouveau disponible, ce sera un cycle infini.
+\newline
+\newline Les récompenses extrinsèques et intrinsèques pouvant être à des échelles différentes, il est proposé de normaliser les récompenses intrinsèques.
+
 
 \newpage \section{Revue : Agent \textit{Never Give Up} \cite{ngu} et agent 57 \cite{agent57}}
+\subsection{NGU}
+Un état déjà visité est considéré par les algorithmes curiosité comme non pertinent, alors qu’il pourrait encore en réalité permettre à l’agent d’apprendre.
+\newline
+\newline NGU dispose d’une récompense intrinsèque qui va inciter l’agent à visiter les états connus pendant un épisode (mais une fois seulement), pour chercher à être de plus en plus familier avec eux. Plusieurs facteurs impactent sur cette récompense : un facteur de nouveauté épisodique, qui s’adapte rapidement aux nouvelles observations du réseau, et un facteur longue durée, qui se base sur un RND et qui varie plus lentement. En d’autres termes, cette récompense puni rapidement la visite d’un état connu au sein d’un même épisode, elle décourage lentement la visite d’état fréquemment visité et elle cherche à ignorer les observations de l’environnement qui ne peuvent pas être influencées par les actions de l’agent.
+\newline
+\newline Pour extraire les éléments utiles des observations de l’agent, un réseau Siamois est utilisé. Le module va chercher à prédire l’action qui permet de passer d’un état x(t) à un état x(t+1). Les deux états passent en parallèle dans le réseau Siamois, qui va en ressortir deux représentations d’états (une pour chaque). Et en partant de ces représentation, un classifieur est utilisé afin de prédire l’action qui permet de passer d’un état à un autre. Une rétropropagation permet de faire évoluer les deux réseaux (siamois + classifieur) afin de minimiser l’erreur entre l’action prévu par le classifieur et l’action réel, qui a permis de passer de l'état x(t) à l'état x(t+1).
+\newline
+\newline La mémoire épisodique va contenir tous les états qui sont visités pendant l’épisode. La récompense intrinsèque sera donnée par une fonction inverse du nombre de fois que l’état, ou un voisin très proche de l’état a été visité. La récompense va donc diminuer pour les états déjà visité pendant cet épisode.
+\subsection{Agent 57}
+Objectif : réussir à battre le niveau moyen humain des 57 jeux Atari. Problème : tous les jeux ne se nécessite pas la même stratégie. Certains on besoin de récompense long terme, d’autre de beaucoup d’exploration. Il faut être capable de réussir tous les jeux à la fois.
+\newline
+\newline L’agent se base sur NGU mais y apporte des améliorations. La fonction Q de mesure de la qualité d’une action est séparée en deux, pour optimiser les composants intrinsèques et extrinsèques séparément. Le choix de l’action la plus optimisée est tout de même fait en utilisant ces deux fonctions.
+\newline
+\newline Plusieurs politiques sont entraînés en parallèle, mais contrairement à d’autre agent, celui-ci peut prioriser certaines politique, qui permettent un apprentissage plus efficace.
+\newline
+\newline Parler de la séparation entre actor et learner
+
 
 \newpage \section{Revue : \textit{Soft Q imitation learning (SQIL): Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}}
 \label{revue_SQIL}
