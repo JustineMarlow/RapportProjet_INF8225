@@ -100,6 +100,7 @@ Il peut être très complexe d'entraîner un agent à imiter un expert sur la ba
 \newline \indent SQIL est une preuve de concept que même de simples méthodes d'imitation basée sur l'apprentissage par renforcement avec des récompenses constantes peuvent être aussi efficaces que des méthodes bien plus complexes, avec lesquelles les récompenses sont apprises. En théorie, SQIL peut toutefois être interprété comme une variante régularisée de \textit{behavioral cloning} qui utilise de la dispersion - \textit{sparcity} - avant d'encourager l'imitation sur le long-terme.
 \newline
 \newline \indent Cette méthode peut être implémentée avec n'importe quel algorithme d'acteur-critique sans politique ou de \textit{Q-learning} standard avec très peu de modifications, raison pour laquelle elle s'avère particulièrement intéressante dans le cas de notre projet.
+\newline Pourtant, ses auteurs n'ont pas pu prouver que SQIL atteint les mêmes performances en termes d'occupation des états dans la limite de démonstrations finies. De plus, SQIL ne trouve que la politique de l'expert, mais pas sa fonction de récompense.
 
 \newpage \section{Expérience}
 \subsection{Méthode de curiosité choisie}
