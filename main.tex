@@ -109,12 +109,13 @@ Le code developpé dans le cadre de ce projet est disponble sur un \textit{repos
 \newline \indent  La mémoire épisodique contient tous les états visités lors d'un épisode. La récompense intrinsèque est alors donnée par une fonction inverse du nombre de fois qu’un état - ou un de ses voisins proches - a été visité. La récompense diminue donc pour les états déjà visité au cours d'un épisode.
 
 \subsection{Agent 57 \cite{agent57}}
-\indent Objectif : réussir à battre le niveau moyen humain des 57 jeux Atari. Problème : tous les jeux ne se nécessite pas la même stratégie. Certains on besoin de récompense long terme, d’autre de beaucoup d’exploration. Il faut être capable de réussir tous les jeux à la fois.
-\newline \indent  L’agent se base sur NGU mais y apporte des améliorations. La fonction Q de mesure de la qualité d’une action est séparée en deux, pour optimiser les composants intrinsèques et extrinsèques séparément. Le choix de l’action la plus optimisée est tout de même fait en utilisant ces deux fonctions.
-\newline \indent  Plusieurs politiques sont entraînés en parallèle, mais contrairement à d’autre agent, celui-ci peut prioriser certaines politique, qui permettent un apprentissage plus efficace.
+\indent L'agent 57 avait pour objectif de réussir à battre le niveau moyen humain sur les 57 jeux Atari. Cela s'avère être une tâche très complexe car diverse, dans la mesure tous ne mettent pas en jeu les mêmes mécaniques. Certains on besoin de récompenses sur le long terme et d’autre de beaucoup d’exploration locale.
+\newline \indent L’agent se base sur NGU mais y apporte des améliorations. La fonction Q de mesure de la qualité d’une action est séparée en deux, pour optimiser les composants intrinsèques et extrinsèques séparément. Le choix de l’action la plus optimisée est toujours fait en utilisant ces deux fonctions.
+\newline \indent Plusieurs politiques sont entraînés en parallèle, mais contrairement à d’autre agents, celui-ci peut prioriser certaines politique, qui permettent un apprentissage plus efficace.
 \newline
 \newline \indent  Parler de la séparation entre actor et learner
-
+\newline
+\newline \indent Ainsi, Agent 57 permet les mêmes performances que \textit{Never Give Up} ; mais permet en plus de généraliser ces performances à une plus grand nombre de problèmes.
 
 \newpage \section{Revue : \textit{Soft Q imitation learning (SQIL): Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}}
 \label{revue_SQIL}
