@@ -1,5 +1,7 @@
 %pour la mise en page
 \documentclass[a4paper,12pt,twocolumn]{report}
+\pdfpagewidth=8.5in
+\pdfpageheight=11in
 \usepackage[utf8]{inputenc}
 \usepackage{indentfirst}
 
@@ -73,15 +75,13 @@ En outre, nous souhaitons déterminer si l'utilisation conjointe ou séquentiell
 
 Parmi les méthodes de curiosité existantes aujourd'hui en \textit{machine learning}, nous nous sommes intéressés aux méthodes :
 \begin{itemize}
-    \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity} \footnote{Nous avons réalisé notre présentation en INF8225 sur cet article de recherche\\ \indent \indent Lien de nos slides : \\ \indent \indent \url{https://docs.google.com/presentation/d/1daVZ6VJCkuz3aiGszendBEHfDWNttVcImuU9a3gBUJ4/edit?usp=sharing}}
+    \item \textit{Curiosity-driven Exploration by Self-supervised Prediction} \cite{curiosity} \footnote{Nous avons réalisé notre présentation en INF8225 sur cet article de recherche}
     \item \textit{Exploration by Random Network Distillation} \cite{distillation}
     \item les méthodes utilisées par les agents de \textit{Never Give Up} \cite{ngu} et de l'agent 57 \cite{agent57}
 \end{itemize}
 Par ailleurs, nous nous sommes intéressé à la méthode d'imitation \textit{SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}.\\
 
-Nous présenterons donc dans ce rapport une revue de littérature de ces différentes méthodes, avant de présenter l'expérience que nous avons tenté de mener.\\
-
-Le code developpé dans le cadre de ce projet est disponble sur un \textit{repository Github} à l'adresse suivante \url{https://github.com/fserret/Projet_INF8225}.
+Nous présenterons donc dans ce rapport une revue de littérature de ces différentes méthodes, avant de présenter l'expérience que nous avons tenté de mener. Le code developpé dans le cadre de ce projet est disponble sur un \textit{repository Github} à l'adresse suivante \url{https://github.com/fserret/Projet_INF8225}.
 
 \section{Revue : \textit{Exploration by Random Network Distillation} \cite{distillation}}
 \label{revue_distillation}
@@ -128,7 +128,7 @@ Il peut être très complexe d'entraîner un agent à imiter un expert sur la ba
 \newline \indent Cette méthode peut être implémentée avec n'importe quel algorithme d'acteur-critique sans politique ou de \textit{Q-learning} standard avec très peu de modifications, raison pour laquelle elle s'avère particulièrement intéressante dans le cas de notre projet.
 \newline \indent Pourtant, ses auteurs n'ont pas pu prouver que SQIL atteint les mêmes performances en termes d'occupation des états dans la limite de démonstrations finies. De plus, SQIL ne trouve que la politique de l'expert, mais pas sa fonction de récompense.
 
-\newpage \section{Expérience}
+\section{Expérience}
 \subsection{Méthode de curiosité choisie}
 Nous avons choisi d'utiliser la \textit{random network distillation} en utilisant le code fourni avec l'article de recherche (disponible sur un \textit{repository Github} \cite{distillation_github}).
 
@@ -137,7 +137,6 @@ Notre objectif était d'utiliser la méthode d'apprentissage par renforcement pa
 \indent Cependant, dû à un manque de temps et le fait de n'avoir trouvé aucun \textit{repository} utilisable, nous avons décidé de définir une récompense intrinsèque guidée par les démonstrations d'un agent expert (ici, notre agent entraîné avec la curiosité de \textit{random network distillation}).\\
 \indent Pour ce faire nous avons utilisé une méthode similaire au \textit{pseudo-count} de la mémoire épisodique de l'agent NGU mais pour comparer les observations de notre agent avec celles des démonstrations de notre agent expert. Par manque de temps, et comme nous nous intéressons ici à ce que les états soit similaire nous avons utilisée directement les produit scalaire entre les vecteurs de \textit{features} crées par le \textit{random target network} du modèle en cours d'entraînement comme \textit{kernel} de similarité, ensuite nous combinons le \textit{reward} ainsi obtenu avec le \textit{reward} de curiosité comme suit:
 \begin{equation} r_{im} = \frac{\sum_{v\in \text{Demonstrations}} X_{obs}\cdot v}{|\text{Demonstrations}|} \end{equation}
-
 \begin{equation} r_{int} = r_{rnd} \cdot (1 + tanh(\alpha \cdot r_{im})) \end{equation}
 
 \subsection{Combinaison de l'imitation et de la curiosité}
@@ -158,17 +157,15 @@ Le code fourni pour la \textit{random network distillation} offre différents en
 \subsubsection{Paramètres observables pendant l'apprentissage}
 On peut s'intéresser à différents paramètres que l'on peut observer au fil de l'apprentissage de l'agent à savoir :
 \begin{itemize}
-    \item \textit{n\_rooms} : le nombre de salles atteintes par l'agent depuis le début de l'apprentissage
-    \item \textit{rewtotal} : la somme des récompenses obtenues par l'agent depuis le début de l'apprentissage
-    \item \textit{best\_ret} : la valeur de récompense la plus importante déjà rencontrée par l'agent depuis le début de l'apprentissage
+    \item \textit{n\_rooms} : le nombre de salles atteintes par l'agent
+    \item \textit{rewtotal} : la somme des récompenses obtenues par l'agent
+    \item \textit{best\_ret} : la valeur de récompense la plus importante déjà rencontrée par l'agent
     \item \textit{eplen} : la longueur des épisodes d'apprentissage menés par l'agent
     \item \textit{eprooms} : le nombre de salles atteintes par l'agent en un épisode d'apprentissage
 \end{itemize}
 
 \subsubsection{Graphiques des données obtenues lors de l'apprentissage}
-\indent Dans le but de comparer les deux modèles d'apprentissage, nous avons préparé un code de mise en forme des résultats en graphiques (en utilisant notamment la librairie \textit{python} \textit{matplotlib}) afin de pouvoir comparer nos deux agents sur les différents paramètres énoncés plus haut.\\
-
-\indent Nous présentons en annexe 1 (à partir de la page \pageref{annexe_1}) les graphiques d'apprentissage de l'agent avec curiosité et en annexe 2 (à partir de la page \pageref{annexe_2}) la superposition des courbes d'apprentissage de l'agent avec curiosité et l'agent avec imitation.\\
+\indent Dans le but de comparer les deux modèles d'apprentissage, nous avons préparé un code de mise en forme des résultats en graphiques (en utilisant notamment la librairie \textit{python} \textit{matplotlib}) afin de pouvoir comparer nos deux agents sur les différents paramètres énoncés plus haut. Nous présentons en annexe 1 (à partir de la page \pageref{annexe_1}) les graphiques d'apprentissage de l'agent avec curiosité et en annexe 2 (à partir de la page \pageref{annexe_2}) la superposition des courbes d'apprentissage de l'agent avec curiosité et l'agent avec imitation.\\
 
 \indent Les graphiques présentés dans l'annexe 1 montrent que notre agent avec curiosité parvient bien à \textit{apprendre} au fil du temps : \textit{n\_rooms}, \textit{rewtotal} et \textit{best\_ret} augmentent. A l'échelle des épisodes, on constate que globalement \textit{eplen} augmente (ce qui indique que l'agent est capable de joueur au jeu de plus en plus longtemps, sans \textit{game-over}) et \textit{eprooms} augmente globalement également. On constate tout de même une régression de \textit{eplen} et \textit{eprooms} autour de la 3000ème étape d'apprentissage, ce qui pourrait indiquer un sur-apprentissage.\\
 
@@ -179,6 +176,7 @@ Concernant les résultats présentés en annexe 2, on constate sur ces première
 Pour confirmer les résultats que nous avons pu obtenir, il faudrait mener l'apprentissage plus loin (avec plus de temps et plus de ressources) afin d'avoir la certitude que notre agent avec imitation performe bel et bien mieux que notre agent avec curiosité seulement. Mais il semblerait donc que l'idée d'utiliser conjointement curiosité et imitation peut se révéler opportune.
 
 \newpage
+\onecolumn
 \section*{Annexes}
 \addcontentsline{toc}{section}{Annexes}
 \subsection*{Annexe 1 - Graphiques d'apprentissage de l'agent avec curiosité}
