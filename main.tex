@@ -1,21 +1,5 @@
 %pour la mise en page
-\documentclass{article}
-\pdfpagewidth=8.5in
-\pdfpageheight=11in
-
-\usepackage{times}
-\usepackage{soul}
-\usepackage{url}
-\usepackage[hidelinks]{hyperref}
-\usepackage[utf8]{inputenc}
-\usepackage[small]{caption}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{booktabs}
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\urlstyle{same}
-
+\documentclass[a4paper,12pt,twocolumn]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{indentfirst}
 
@@ -99,7 +83,7 @@ Nous présenterons donc dans ce rapport une revue de littérature de ces différ
 
 Le code developpé dans le cadre de ce projet est disponble sur un \textit{repository Github} à l'adresse suivante \url{https://github.com/fserret/Projet_INF8225}.
 
-\newpage \section{Revue : \textit{Exploration by Random Network Distillation} \cite{distillation}}
+\section{Revue : \textit{Exploration by Random Network Distillation} \cite{distillation}}
 \label{revue_distillation}
 \indent La méthode de \textit{random network distillation} vise à résoudre deux problèmes communs des réseaux de \textit{reinforcement learning} :
 \newline \indent Le premier est que leur entraînement est complexe lorsque la répartition des récompenses n'est pas dense.
@@ -112,7 +96,7 @@ Le code developpé dans le cadre de ce projet est disponble sur un \textit{repos
 \newline En cela, l'agent mimique ainsi le comportement d'un joueur humain : il ne s'arrête pas de jouer lorsqu’il perd ; mais il recommence, surtout s’il sait qu’il progresse dans une zone difficile dont la récompense est à la hauteur de la difficulté.
 \newline Il faut tout de même réaliser des épisodes, car l’agent peut se retrouver bloqué dans une boucle infinie si il trouve facilement et rapidement une récompense et que perdre au jeu en boucle est plus rentable que d'explorer (car il pourrait à nouveau obtenir cette récompense).
 
-\newpage \section{Revue : Agent \textit{Never Give Up} et Agent 57}
+\section{Revue : Agent \textit{Never Give Up} et Agent 57}
 \subsection{Agent \textit{Never Give Up} \cite{ngu} (NGU)}
 \indent Un agent curieux considère un état déjà visité non pertinent. Pourtant, il pourrait en réalité encore apprendre de cet état.
 \newline \indent OpenAI y remédie, en dotant leur agent \textit{Never Give Up} d’une récompense intrinsèque dont le but est d'inciter l’agent à visiter à nouveau les états connus pendant un épisode (mais une fois seulement), afin d'en être de plus en plus familier.
@@ -126,13 +110,13 @@ Le code developpé dans le cadre de ce projet est disponble sur un \textit{repos
 
 \subsection{Agent 57 \cite{agent57}}
 \indent L'agent 57 avait pour objectif de réussir à battre le niveau moyen humain sur les 57 jeux Atari. Cela s'avère être une tâche très complexe car diverse, dans la mesure tous ne mettent pas en jeu les mêmes mécaniques. Certains on besoin de récompenses sur le long terme et d’autre de beaucoup d’exploration locale.
-\newline \indent L’agent se base sur NGU mais y apporte des améliorations. La fonction Q de mesure de la qualité d’une action est séparée en deux, pour optimiser les composants intrinsèques et extrinsèques séparément, ce qui fait lien avec la double politique du NGU (exploration \& exploitation). Le choix de l’action la plus optimisée est toujours fait en utilisant ces deux fonctions.
+\newline \indent L’agent se base sur NGU mais y apporte des améliorations. La fonction Q de mesure de la qualité d’une action est séparée en deux, pour optimiser les composants intrinsèques et extrinsèques séparément. Le choix de l’action la plus optimisée est toujours fait en utilisant ces deux fonctions.
 \newline
 \newline \indent Un autre avantage d'Agent 57 réside dans sa qualité d'agent distribué : en impliquant plusieurs acteurs aux politiques variables en parallèle, Agent 57 peut collecter plus rapidement un grand nombre d'informations. Un agent \textit{learner}, possédant une structure similaire aux acteurs, peut ensuite inférer la fonction de perte pour l'itération suivante de ce plus grand nombre de données, avant de partager les nouveaux poids du réseau aux différents acteurs. Ceux-ci peuvent ensuite mettre à jour leurs paramètres en fonction de ceux transmis par le \textit{learner}. Les différentes politiques étant entraînés en parallèle, Agent 57 peut aussi en prioriser certaines, ce qui permettent un apprentissage plus efficace.
 \newline
 \newline \indent Ainsi, Agent 57 permet non-seulement des performances encore meilleures que \textit{Never Give Up}, tant en termes de vitesse que de qualité de l'apprentissage, mais permet en plus de généraliser ces performances à une plus grande variété de problèmes.
 
-\newpage \section{Revue : \textit{Soft Q imitation learning (SQIL): Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}}
+\section{Revue : \textit{Soft Q imitation learning (SQIL): Imitation Learning via Reinforcement Learning with Sparse Rewards} \cite{sqil}}
 \label{revue_SQIL}
 Il peut être très complexe d'entraîner un agent à imiter un expert sur la base de démonstrations, et ce, particulièrement à travers l'observation continue d'un environnement aux nombreuses dimensions et comprenant des dynamiques inconnues. Les méthodes d'apprentissage supervisé se basant sur le \textit{behavioral cloning} (BC) souffrent de dérive de la distribution - \textit{distribution shifting}. En effet, en imitant trop les actions démontrées, l'agent accumule des erreurs et dérive des états recherchés.
 \newline \indent Des approches récentes basées sur l'apprentissage par renforcement - \textit{reinforcement learning} (RL) -, dont l'\textit{inverse RL} et le \textit{generative adversarial imitation learning} (GAIL), résolvent ce problème. Mais cela est au prix de l'entraînement d'un agent RL qui pour coller aux démonstrations sur le long terme. La véritable fonction de récompense étant inconnue, cela implique que son apprentissage se base sur les démonstrations, au prix de techniques d'approximation hasardeuses et complexes qui utilisent un entraînement adversariel.
