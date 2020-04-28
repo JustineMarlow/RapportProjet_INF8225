@@ -96,7 +96,7 @@ Le code developpé dans le cadre de ce projet est disponble sur un \textit{repos
 \newline En cela, l'agent mimique ainsi le comportement d'un joueur humain : il ne s'arrête pas de jouer lorsqu’il perd ; mais il recommence, surtout s’il sait qu’il progresse dans une zone difficile dont la récompense est à la hauteur de la difficulté.
 \newline Il faut tout de même réaliser des épisodes, car l’agent peut se retrouver bloqué dans une boucle infinie si il trouve facilement et rapidement une récompense et que perdre au jeu en boucle est plus rentable que d'explorer (car il pourrait à nouveau obtenir cette récompense).
 
-\newpage \section{Revue : Agent \textit{Never Give Up} \cite{ngu} et agent 57 \cite{agent57}}
+\newpage \section{Revue : Agent \textit{Never Give Up} et Agent 57}
 \subsection{Agent \textit{Never Give Up} \cite{ngu} (NGU)}
 \indent Un agent curieux considère un état déjà visité non pertinent. Pourtant, il pourrait en réalité encore apprendre de cet état.
 \newline \indent OpenAI y remédie, en dotant leur agent \textit{Never Give Up} d’une récompense intrinsèque dont le but est d'inciter l’agent à visiter à nouveau les états connus pendant un épisode (mais une fois seulement), afin d'en être de plus en plus familier.
